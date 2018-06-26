@@ -4,11 +4,14 @@ const ICOCoin = artifacts.require('./ICOCoin.sol');
 module.exports = function(deployer, network, accounts) {
     
 
-    //const openingTime = web3.eth.getBlock('latest').timestamp + 2; // two secs in the future
-    const openingTime = Math.round((new Date()).getTime() / 1000);
+    const openingTime = 1530116982;//web3.eth.getBlock('latest').timestamp + 2; // two secs in the future
+  //  const openingTime = Math.round((new Date()).getTime() / 1000)-86400;
     const closingTime = openingTime + 86400 * 20; // 20 days
     const rate = new web3.BigNumber(1000);
     const wallet = accounts[0];
+    console.log(typeof(1530030279));
+    console.log(openingTime);
+
 
     return deployer
         .then(() => {
@@ -18,6 +21,8 @@ module.exports = function(deployer, network, accounts) {
                 });
         })
         .then(() => {
+            console.log(ICOCoin.address);
+            console.log(rate);
             return deployer.deploy(
                 ICOCoinCrowdsale,
                 openingTime,
@@ -26,7 +31,7 @@ module.exports = function(deployer, network, accounts) {
                 wallet,
                 ICOCoin.address, 
                 {
-                    gas:1834640
+                    gas:1835280
                 }
             );
         });

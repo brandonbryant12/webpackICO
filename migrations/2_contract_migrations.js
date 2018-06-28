@@ -2,27 +2,21 @@ const ICOCoinCrowdsale = artifacts.require('./ICOCoinCrowdsale.sol');
 const ICOCoin = artifacts.require('./ICOCoin.sol');
 
 module.exports = function(deployer, network, accounts) {
-    
 
-    const openingTime = 1530116982;//web3.eth.getBlock('latest').timestamp + 2; // two secs in the future
-  //  const openingTime = Math.round((new Date()).getTime() / 1000)-86400;
+    const openingTime = Math.round((new Date()).getTime() / 1000)+360;
     const closingTime = openingTime + 86400 * 20; // 20 days
-    const rate = new web3.BigNumber(1000);
+    const rate = new web3.BigNumber(5000000000000000);
     const wallet = accounts[0];
-    console.log(typeof(1530030279));
-    console.log(openingTime);
-
 
     return deployer
         .then(() => {
             return deployer.deploy(ICOCoin,
                 {
-                    gas:1842978
+                    gas:2842978
                 });
         })
         .then(() => {
-            console.log(ICOCoin.address);
-            console.log(rate);
+            coinInst = ICOCoin;
             return deployer.deploy(
                 ICOCoinCrowdsale,
                 openingTime,
@@ -31,8 +25,11 @@ module.exports = function(deployer, network, accounts) {
                 wallet,
                 ICOCoin.address, 
                 {
-                    gas:1835280
+                    gas:2835280
                 }
-            );
-        });
+        ).then(()=>{
+            ICOCoinInstance = ICOCoin.at(ICOCoin.address)
+            ICOCoinInstance.transferOwnership(ICOCoinCrowdsale.address)
+        })
+    });
 };

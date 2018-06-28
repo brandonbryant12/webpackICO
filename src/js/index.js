@@ -60,18 +60,12 @@ class App extends React.Component {
     }).then((result) =>{
       console.log(result)
       this.tokenInstance.totalSupply().then((supply) =>{ this.setState({totalSupply:supply.toString(10)})});
-      //this.tokenInstance.balanceOf(this.account).then((balance) =>{this.setState({tokenBalance:balance.toString(10)})});
+      this.tokenInstance.balanceOf(this.account).then((balance) =>{this.setState({tokenBalance:balance.toString(10)})});
 
     })
   }
   watchEvents() {
     // TODO: trigger event when vote is counted, not when component renders
-    this.electionInstance.votedEvent({}, {
-      fromBlock: 0,
-      toBlock: 'latest'
-    }).watch((error, event) => {
-      this.setState({ voting: false })
-    })
   }
   componentDidMount() {
 

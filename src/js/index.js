@@ -59,8 +59,16 @@ class App extends React.Component {
       value: web3.toWei(amount,'ether')
     }).then((result) =>{
       console.log(result)
-      this.tokenInstance.totalSupply().then((supply) =>{ this.setState({totalSupply:supply.toString(10)})});
-      this.tokenInstance.balanceOf(this.account).then((balance) =>{this.setState({tokenBalance:balance.toString(10)})});
+      this.tokenInstance.totalSupply().then((supply) =>{
+        let totSupply = supply/(Math.pow(10,18))
+        console.log('tok balance',totSupply)
+        this.setState({totalSupply:totSupply.toString(10)})
+      });
+      this.tokenInstance.balanceOf(this.account).then((balance) =>{
+        let tokBalance = balance/(Math.pow(10,18))
+        console.log('tok balance',tokBalance)
+        this.setState({tokenBalance:tokBalance.toString(10)})
+      });
 
     })
   }
@@ -98,8 +106,16 @@ class App extends React.Component {
         this.tokenInstance = tokenInstance
         this.watchEvents()
         this.tokenInstance.name().then((name) =>{ this.setState({tokenName:name})});
-        this.tokenInstance.totalSupply().then((supply) =>{ this.setState({totalSupply:supply.toString(10)})});
-        this.tokenInstance.balanceOf(account).then((balance) =>{this.setState({tokenBalance:balance.toString(10)})});
+        this.tokenInstance.totalSupply().then((supply) =>{ 
+          let totSupply = supply/(Math.pow(10,18))
+          console.log('tok balance',totSupply)
+          this.setState({totalSupply:totSupply.toString(10)})
+        });
+        this.tokenInstance.balanceOf(account).then((balance) =>{
+          let tokBalance = balance/(Math.pow(10,18))
+          console.log('tok balance',tokBalance)
+          this.setState({tokenBalance:tokBalance.toString(10)})
+        });
       })
     })
   }
